@@ -25,7 +25,7 @@ export default {
 
 		switch (controller.cron) {
 
-			case "0 0 1 * *":
+			case "0,30 * 1 * *":
 				//Build monthly bingo card
 				const date = new Date()
 				const yyyy = date.getUTCFullYear()
