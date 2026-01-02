@@ -32,7 +32,7 @@ export default {
 				const mm = padMM(date.getUTCMonth() + 1)
 				const key = `outages-${yyyy}-${mm}.json`
 				
-				if(!await env.BINGO_BUCKET.get(key)) {
+				if(!await env.BINGO_BUCKET.head(key)) {
 				const template =  await env.BINGO_BUCKET.get(`outages-template.json`)
 				if(!template) throw new Error(`Missing Key`)
 				await env.BINGO_BUCKET.put(key, template.body, {httpMetadata: { contentType: "application/json" }})
@@ -42,7 +42,7 @@ export default {
 				break;
 			case  "* 1 * * *":
 				// Hourly API check
-				
+
 				break;
 		}
 
