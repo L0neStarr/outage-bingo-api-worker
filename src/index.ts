@@ -41,7 +41,8 @@ export default {
 
 				break;
 			case  "* 1 * * *":
-				// Hourly API call
+				// Hourly API check
+				
 				break;
 		}
 

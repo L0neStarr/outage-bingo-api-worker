@@ -20,7 +20,7 @@
 	"triggers": {
 		"crons": [
 			"0 0 1 * *", // Build monthly bingo card
-			"* 1 * * *" // Hourly API calls
+			"0 * * * *" // Hourly API calls
 		]
 	}
 
