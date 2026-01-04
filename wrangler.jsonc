@@ -14,7 +14,7 @@
     {
       "binding": "BINGO_BUCKET",
       "bucket_name": "outage-bingo",
-	  //"remote": true
+	  "remote": true
     }
   	],
 	"triggers": {

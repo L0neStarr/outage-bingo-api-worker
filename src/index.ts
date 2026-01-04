@@ -12,6 +12,16 @@ function padMM(mm:number) {
 
 
 export default {
+
+	async fetch(req) {
+
+		const url = new URL(req.url);
+		url.pathname = '/__scheduled';
+		url.searchParams.append('cron', '* * * * *');
+		return new Response(`To test the scheduled handler, ensure you have used the "--test-scheduled" then try running "curl ${url.href}".`);
+
+
+	}, // async fetch
 	// The scheduled handler is invoked at the interval set in our wrangler.jsonc's
 	// [[triggers]] configuration.
 	async scheduled(controller, env, ctx): Promise<void> {
@@ -33,8 +43,45 @@ export default {
 
 
 				break;
-			case  "* 1 * * *":
+			case  "0 * * * *":
 				// Hourly API check
+				const apiTemplate	= await env.BINGO_BUCKET.get(`outage-sources.json`)
+				if (!apiTemplate) throw new Error("Missing outage-sources.json")
+				const data = await apiTemplate.text()
+				const obj = JSON.parse(data)
+
+				//Atlssian API parser
+				async function apiAtl(source: string[]) {
+					//logic
+				}
+
+
+
+				//console.log(sources.vendors[0].vendor) //this is i
+
+				for (let i = 0; i < obj.vendors.length; i++) {
+					var vendor = obj.vendors[i]
+					//console.log(vendors)
+					var vendorName = obj.vendors[i].vendor
+					//console.log(vendors)
+					//console.log(vendors.sources.length)
+
+					for(let j = 0; j < vendor.sources.length; j++){
+						var source = vendor.sources[j]
+						var types = vendor.sources[j].type
+						//console.log(types)
+						for(let k = 0; k <source.urls.length; k++){
+							var type = source.type
+							var url = source.urls[k]
+							//console.log(type)
+						}
+					}
+				}
+
+				
+
+				// Cloudflare
+
 
 				break;
 		}
