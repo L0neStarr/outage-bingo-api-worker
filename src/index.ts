@@ -60,23 +60,23 @@ export default {
         for (let i = 0; i < mmObj.length; i++) mmIndex.set(mmObj[i].name, i)
 
         // Append helper: adds shortlink if vendor exists and link isn't already present
-        function appendLink(vendorName: string, shortlink: string): boolean {
-          const idx = mmIndex.get(vendorName)
-          if (idx === undefined) {
-            console.log(`Vendor not found in ${mmKey}: "${vendorName}"`)
-            return false
-          }
+		function appendLink(vendorName: string, shortlink: string): boolean {
+			const idx = mmIndex.get(vendorName)
+			if (idx === undefined) return false
 
-          // Defensive in case older months have the wrong shape
-          if (!Array.isArray(mmObj[idx].link)) mmObj[idx].link = []
+			const links = mmObj[idx].link
 
-          if (!mmObj[idx].link.includes(shortlink)) {
-            mmObj[idx].link.push(shortlink)
-            return true
-          }
+			// ADD: cap at 3 links
+			if (links.length >= 3) return false
 
-          return false
-        }
+			// ADD: no duplicates
+			if (!links.includes(shortlink)) {
+					links.push(shortlink)
+					return true
+			}
+
+			return false
+		}
 
         let changed = false
 
