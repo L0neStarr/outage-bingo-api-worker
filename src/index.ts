@@ -144,7 +144,7 @@ export default {
             if (await env.outage_bingo_kv.get(kvKey)) continue
 
             await env.outage_bingo_kv.put(kvKey, "1", {
-              expirationttl: SEEN_TTL_SECONDS,
+              expirationTtl: SEEN_TTL_SECONDS,
             })
 
             changed = appendLink(vendorName, url) || changed
