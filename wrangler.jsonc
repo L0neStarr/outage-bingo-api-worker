@@ -17,6 +17,13 @@
 	  "remote": true
     }
   	],
+	"kv_namespaces": [
+		{
+            "binding": "outage_bingo_kv",
+            "id": "b295a5d76f4b4a6684b76e7596f93635",
+      		"preview_id": "b0586fcaea654f45a05fecd874e5f7ef"
+        }
+	],
 	"triggers": {
 		"crons": [
 			"0,30 * 1 * *", // Build monthly bingo card

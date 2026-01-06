@@ -1851,7 +1851,7 @@ interface KVNamespaceGetOptions<Type> {
 }
 interface KVNamespacePutOptions {
     expiration?: number;
-    expirationTtl?: number;
+    expirationttl?: number;
     metadata?: (any | null);
 }
 interface KVNamespaceGetWithMetadataResult<Value, Metadata> {

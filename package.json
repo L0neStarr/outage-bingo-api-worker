@@ -11,5 +11,8 @@
 	"devDependencies": {
 		"typescript": "^5.5.2",
 		"wrangler": "^4.54.0"
+	},
+	"dependencies": {
+		"@rowanmanning/feed-parser": "^2.1.1"
 	}
 }

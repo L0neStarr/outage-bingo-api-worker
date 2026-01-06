@@ -1,9 +1,8 @@
-// index.ts — copy/paste replacement
-// Scope: (1) ensure monthly outages-YYYY-MM.json exists from template, (2) hourly parse Atlassian incident feeds,
-// (3) append incident shortlinks into the correct vendor's link[] (no duplicates), (4) write the updated JSON back to R2 once.
+import { parseFeed } from '@rowanmanning/feed-parser'
 
 interface Env {
   BINGO_BUCKET: R2Bucket
+  outage_bingo_kv: KVNamespace
 }
 
 function padMM(mm: number) {
@@ -17,22 +16,20 @@ function buildKey() {
   return `outages-${yyyy}-${mm}.json`
 }
 
-type MonthlyOutageBing = { name: string; link: string[] } // link is an array (matches your updated template)
-type AtlassianIncident = { status: string; impact: string; shortlink: string }
-type apiAtlassian = { incidents: AtlassianIncident[] }
+
 
 export default {
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     switch (controller.cron) {
       case "0,30 * 1 * *": {
-        // Build monthly template file (only if missing)
+        // Build monthly template file if not present
         const key = buildKey()
 
         if (!(await env.BINGO_BUCKET.head(key))) {
           const template = await env.BINGO_BUCKET.get("outages-template.json")
           if (!template) throw new Error("Missing outages-template.json")
 
-          // Copies template bytes directly (efficient for initialization; no JSON parsing needed here)
+          // Copies template into monthly card into R2 storage
           await env.BINGO_BUCKET.put(key, template.body, { httpMetadata: { contentType: "application/json" } })
         }
 
@@ -53,23 +50,23 @@ export default {
         const mmTemplate = await env.BINGO_BUCKET.get(mmKey)
         if (!mmTemplate) throw new Error(`Missing ${mmKey} in R2 (monthly file not created yet)`)
         const mmData = await mmTemplate.text()
-        const mmObj = JSON.parse(mmData) as MonthlyOutageBing[]
+        const mmObj = JSON.parse(mmData) as MonthlyOutageBingo[]
 
-        // Map vendor name -> index in mmObj so updates target the correct vendor (prevents overwriting all vendors)
+        // Map vendor name to index in mmObj so updates target the correct vendor (prevents overwriting all vendors)
         const mmIndex = new Map<string, number>()
         for (let i = 0; i < mmObj.length; i++) mmIndex.set(mmObj[i].name, i)
 
-        // Append helper: adds shortlink if vendor exists and link isn't already present
-		function appendLink(vendorName: string, shortlink: string): boolean {
-			const idx = mmIndex.get(vendorName)
-			if (idx === undefined) return false
+        // Append shortlink if vendor exists and link isn't already present
+		  function appendLink(vendorName: string, shortlink: string): boolean {
+			  const idx = mmIndex.get(vendorName)
+			  if (idx === undefined) return false
 
-			const links = mmObj[idx].link
+			  const links = mmObj[idx].link
 
-			// ADD: cap at 3 links
+			// Max of 3 incidents per month to avoid giant array
 			if (links.length >= 3) return false
 
-			// ADD: no duplicates
+			// check for dupes
 			if (!links.includes(shortlink)) {
 					links.push(shortlink)
 					return true
@@ -80,7 +77,7 @@ export default {
 
         let changed = false
 
-        // Atlassian API parser: fetch -> parse -> apply criteria -> append links
+        // Atlassian API parser: fetch status page -> parse -> check incident -> append links
         async function apiAtl(vendorName: string, url: string) {
           const res = await fetch(url)
           if (!res.ok) {
@@ -92,15 +89,70 @@ export default {
           if (!parsed?.incidents?.length) return
 
           for (let i = 0; i < parsed.incidents.length; i++) {
-            const impact = parsed.incidents[i].impact
+            const impact = String(parsed.incidents[i].impact || "").toLowerCase()
             const shortlink = parsed.incidents[i].shortlink
 
-            // Your current criterion: only critical incidents
+            // Only use critical and major incidents
             if ((impact === "critical" || impact === "major") && typeof shortlink === "string" && shortlink.length > 0) {
               changed = appendLink(vendorName, shortlink) || changed
             }
           }
         }
+
+//###############################################################################
+//                        RSS PART
+//###############################################################################
+        function startOfMonthUTC(): Date {
+          const now = new Date()
+          return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
+        }
+
+        async function hashString(input: string): Promise<string> {
+          const data = new TextEncoder().encode(input)
+          const digest = await crypto.subtle.digest("SHA-256", data)
+          return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        }
+
+        const SEEN_TTL_SECONDS = 60 * 60 * 24 * 90 // 90 days
+
+        // RSS parser: fetch RSS status page -> parse -> check incident -> append links
+        async function rss(vendorName: string, url: string) {
+          const res = await fetch(url)
+          if (!res.ok) return
+
+          const feed = parseFeed(await res.text())
+          const monthStart = startOfMonthUTC()
+
+          for (const item of feed.items ?? []) {
+            if (!item.published) continue
+            if (item.published < monthStart) continue
+
+            const url = item.url?.trim()
+            const title = item.title?.trim()
+            if (!url || !title) continue
+
+            // Skip resolved-style updates
+            const text = (title + " " + (item.description ?? "")).toLowerCase()
+            if (text.includes("resolved") || text.includes("restored")) continue
+
+            // Build unique key
+            const keyInput = `${url}|${title}|${item.published.getTime()}`
+            const keyHash = await hashString(keyInput)
+            const kvKey = `seen:rss:${keyHash}`
+
+            // Deduplicate
+            if (await env.outage_bingo_kv.get(kvKey)) continue
+
+            await env.outage_bingo_kv.put(kvKey, "1", {
+              expirationttl: SEEN_TTL_SECONDS,
+            })
+
+            changed = appendLink(vendorName, url) || changed
+          }
+        }
+
+
+
 
         // Iterate outage-sources.json and call apiAtl for each Atlassian source
         for (let i = 0; i < sourcesObj.vendors.length; i++) {
@@ -119,24 +171,30 @@ export default {
                 }
                 break
               }
-
-              case "api_custom":
-              case "rss_daily":
-              case "gdelt_daily":
+              case "api_custom":{
+                break
+              }
+              case "rss_hourly":{
+                for (let k = 0; k < source.urls.length; k++){
+                  const url = source.urls[k]
+                  await rss(vendorName, url)
+                }
+                break
+              }
+              case "gdelt_daily":{
+                break
+              }
               default:
-                // Not implemented here (per your scope); leave as no-op
+                // I guess we here now
                 break
             }
           }
         }
 
-        // Write updated monthly JSON back to R2 once (only if something changed)
-        changed &&
-          (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {
-            httpMetadata: { contentType: "application/json" },
-          }))
+        // Write updated monthly JSON back to R2 once and only if something changed.
+        changed && (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {httpMetadata: { contentType: "application/json" },}))
 
-        console.log(mmObj)
+        //console.log(mmObj)
         break
       }
     }
