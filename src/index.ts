@@ -93,7 +93,7 @@ export default {
             const shortlink = parsed.incidents[i].shortlink
 
             // Only use critical and major incidents
-            if ((impact === "critical" || impact === "major") && typeof shortlink === "string" && shortlink.length > 0) {
+            if ((impact === "critical" || impact === "major" || impact === "minor") && typeof shortlink === "string" && shortlink.length > 0) {
               changed = appendLink(vendorName, shortlink) || changed
             }
           }
