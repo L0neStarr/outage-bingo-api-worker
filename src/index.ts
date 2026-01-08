@@ -93,7 +93,7 @@ export default {
             const shortlink = parsed.incidents[i].shortlink
 
             // Only use critical and major incidents
-            if ((impact === "critical" || impact === "major" || impact === "minor") && typeof shortlink === "string" && shortlink.length > 0) {
+            if ((impact === "critical" || impact === "major") && typeof shortlink === "string" && shortlink.length > 0) { // MODIFIED: fixed corrupted impact check; only major/critical triggers
               changed = appendLink(vendorName, shortlink) || changed
             }
           }
@@ -154,7 +154,59 @@ export default {
 
 
 
-        // Iterate outage-sources.json and call apiAtl for each Atlassian source
+        
+
+        // RSS parser for category cells: fetch RSS -> parse -> check incident -> append links.
+        // Capped to 6 URLs per category (across ALL vendors/sources inside that category).
+        async function rssCategory(
+          categoryName: string,
+          sourceVendor: string,
+          url: string,
+          cap: { added: number; max: number },
+        ) {
+          if (cap.added >= cap.max) return // Category cap reached
+
+          const res = await fetch(url)
+          if (!res.ok) return
+
+          const feed = parseFeed(await res.text())
+          const monthStart = startOfMonthUTC()
+
+          for (const item of feed.items ?? []) {
+            if (cap.added >= cap.max) break // Stop once the category is saturated
+            if (!item.published) continue
+            if (item.published < monthStart) continue
+
+            const itemUrl = item.url?.trim()
+            const title = item.title?.trim()
+            if (!itemUrl || !title) continue
+
+            // Skip resolved-style updates
+            const text = (title + " " + (item.description ?? "")).toLowerCase()
+            if (text.includes("resolved") || text.includes("restored")) continue
+
+            // Build unique key (include category/vendor for safer dedupe across feeds)
+            const keyInput = `${categoryName}|${sourceVendor}|${itemUrl}|${title}|${item.published.getTime()}`
+            const keyHash = await hashString(keyInput)
+            const kvKey = `seen:rss:${keyHash}`
+
+            // Deduplicate
+            if (await env.outage_bingo_kv.get(kvKey)) continue
+
+            await env.outage_bingo_kv.put(kvKey, "1", {
+              expirationTtl: SEEN_TTL_SECONDS,
+            })
+
+            // Append into the category cell name (not the underlying vendor name)
+            const didAdd = appendLink(categoryName, itemUrl)
+            if (didAdd) {
+              cap.added++ // Only count when we actually add a URL
+              changed = true // MODIFIED: keep changed in sync with category additions
+            }
+          }
+        }
+
+// Iterate outage-sources.json and call apiAtl for each Atlassian source or rss for RSS sources boilerplate code left in for other possible handlers
         for (let i = 0; i < sourcesObj.vendors.length; i++) {
           const vendor = sourcesObj.vendors[i]
           const vendorName = vendor.vendor
@@ -191,7 +243,43 @@ export default {
           }
         }
 
-        // Write updated monthly JSON back to R2 once and only if something changed.
+        
+        // Iterate outage-sources.json categories and apply per-category RSS logic
+        for (let i = 0; i < (sourcesObj.categories?.length ?? 0); i++) { // MODIFIED: added category iteration
+          const category = sourcesObj.categories[i]
+          const categoryName = category.name
+
+          // Cap each category cell to 6 URLs total across all vendors/sources in the category
+          const cap = { added: 0, max: 6 }
+
+          for (let j = 0; j < (category.vendors?.length ?? 0); j++) {
+            if (cap.added >= cap.max) break
+            const vendor = category.vendors[j]
+            const vendorName = vendor.vendor
+
+            for (let k = 0; k < (vendor.sources?.length ?? 0); k++) {
+              if (cap.added >= cap.max) break
+              const source = vendor.sources[k]
+              const type = source.type
+
+              switch (type) {
+                case "rss_hourly": {
+                  for (let u = 0; u < source.urls.length; u++) {
+                    if (cap.added >= cap.max) break
+                    const url = source.urls[u]
+                    await rssCategory(categoryName, vendorName, url, cap)
+                  }
+                  break
+                }
+
+                default:
+                  break
+              }
+            }
+          }
+        }
+
+// Write updated monthly JSON back to R2 once and only if something changed.
         changed && (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {httpMetadata: { contentType: "application/json" },}))
 
         //console.log(mmObj)
