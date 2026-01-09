@@ -116,137 +116,64 @@ export default {
 
         const SEEN_TTL_SECONDS = 60 * 60 * 24 * 90 // 90 days
 
-        // RSS parser: fetch RSS status page -> parse -> check incident -> append links
-async function rss(vendorName: string, url: string) {
-  const res = await fetch(url)
-  if (!res.ok) return
+                // RSS parser: fetch RSS status page -> parse -> check incident -> append links
+        async function rss(vendorName: string, url: string) {
+          const res = await fetch(url)
+          if (!res.ok) return
 
-  const feed = parseFeed(await res.text())
-  const monthStart = startOfMonthUTC()
+          const feed = parseFeed(await res.text())
+          const monthStart = startOfMonthUTC()
 
-  // MODIFIED: gather eligible items first
-  const items: { itemUrl: string; title: string; publishedMs: number }[] = [] // MODIFIED
+          // MODIFIED: gather eligible items first
+          const items: { itemUrl: string; title: string; publishedMs: number }[] = [] // MODIFIED
 
-  for (const item of feed.items ?? []) {
-    if (!item.published) continue
-    if (item.published < monthStart) continue
+          for (const item of feed.items ?? []) {
+            if (!item.published) continue
+            if (item.published < monthStart) continue
 
-    const itemUrl = item.url?.trim() // MODIFIED: avoid shadowing param
-    const title = item.title?.trim()
-    if (!itemUrl || !title) continue
+            const itemUrl = item.url?.trim() // MODIFIED: avoid shadowing param
+            const title = item.title?.trim()
+            if (!itemUrl || !title) continue
 
-    const text = (title + " " + (item.description ?? "")).toLowerCase()
-    if (text.includes("resolved") || text.includes("restored")) continue
+            const text = (title + " " + (item.description ?? "")).toLowerCase()
+            if (text.includes("resolved") || text.includes("restored")) continue
 
-    items.push({ itemUrl, title, publishedMs: item.published.getTime() }) // MODIFIED
-  }
+            items.push({ itemUrl, title, publishedMs: item.published.getTime() }) // MODIFIED
+          }
 
-  if (!items.length) return // MODIFIED
+          if (!items.length) return // MODIFIED
 
-  // MODIFIED: shuffle so "first unseen" is effectively random
-  for (let i = items.length - 1; i > 0; i--) { // MODIFIED
-    const j = Math.floor(Math.random() * (i + 1)) // MODIFIED
-    const tmp = items[i]
-    items[i] = items[j]
-    items[j] = tmp
-  }
+          // MODIFIED: shuffle so "first unseen" is effectively random
+          for (let i = items.length - 1; i > 0; i--) { // MODIFIED
+            const j = Math.floor(Math.random() * (i + 1)) // MODIFIED
+            const tmp = items[i]
+            items[i] = items[j]
+            items[j] = tmp
+          }
 
-  // MODIFIED: pick first unseen, but mark all as seen so none are picked again
-  let pickedUrl: string | null = null // MODIFIED
+          // MODIFIED: pick first unseen, but mark all as seen so none are picked again
+          let pickedUrl: string | null = null // MODIFIED
 
-  for (const it of items) {
-    const keyInput = `${it.itemUrl}|${it.title}|${it.publishedMs}`
-    const keyHash = await hashString(keyInput)
-    const kvKey = `seen:rss:${keyHash}`
+          for (const it of items) {
+            const keyInput = `${it.itemUrl}|${it.title}|${it.publishedMs}`
+            const keyHash = await hashString(keyInput)
+            const kvKey = `seen:rss:${keyHash}`
 
-    const alreadySeen = await env.outage_bingo_kv.get(kvKey)
-    if (!alreadySeen && pickedUrl === null) {
-      pickedUrl = it.itemUrl // MODIFIED: this is the ONE we'll add
-    }
+            const alreadySeen = await env.outage_bingo_kv.get(kvKey)
+            if (!alreadySeen && pickedUrl === null) {
+              pickedUrl = it.itemUrl // MODIFIED: this is the ONE we'll add
+            }
 
-    // MODIFIED: mark as seen regardless (prevents future selection)
-    if (!alreadySeen) {
-      await env.outage_bingo_kv.put(kvKey, "1", { expirationTtl: SEEN_TTL_SECONDS }) // MODIFIED
-    }
-  }
+            // MODIFIED: mark as seen regardless (prevents future selection)
+            if (!alreadySeen) {
+              await env.outage_bingo_kv.put(kvKey, "1", { expirationTtl: SEEN_TTL_SECONDS }) // MODIFIED
+            }
+          }
 
-  if (!pickedUrl) return // MODIFIED: everything was already seen
-  changed = appendLink(vendorName, pickedUrl) || changed // MODIFIED
-}
+          if (!pickedUrl) return // MODIFIED: everything was already seen
+          changed = appendLink(vendorName, pickedUrl) || changed // MODIFIED
+        }
 
-
-   
-
-        // RSS parser for category cells: fetch RSS -> parse -> check incident -> append links.
-        // Capped to 6 URLs per category (across ALL vendors/sources inside that category).
-async function rssCategory(
-  categoryName: string,
-  sourceVendor: string,
-  url: string,
-  cap: { added: number; max: number },
-) {
-  if (cap.added >= cap.max) return
-
-  const res = await fetch(url)
-  if (!res.ok) return
-
-  const rssFeed = parseFeed(await res.text())
-  const monthStart = startOfMonthUTC()
-
-  // MODIFIED: gather eligible items
-  const items: { itemUrl: string; title: string; publishedMs: number }[] = [] // MODIFIED
-
-  for (const item of rssFeed.items ?? []) {
-    if (!item.published) continue
-    if (item.published < monthStart) continue
-
-    const itemUrl = item.url?.trim()
-    const title = item.title?.trim()
-    if (!itemUrl || !title) continue
-
-    const text = (title + " " + (item.description ?? "")).toLowerCase()
-    if (text.includes("resolved") || text.includes("restored")) continue
-
-    items.push({ itemUrl, title, publishedMs: item.published.getTime() }) // MODIFIED
-  }
-
-  if (!items.length) return // MODIFIED
-
-  // MODIFIED: shuffle
-  for (let i = items.length - 1; i > 0; i--) { // MODIFIED
-    const j = Math.floor(Math.random() * (i + 1)) // MODIFIED
-    const tmp = items[i]
-    items[i] = items[j]
-    items[j] = tmp
-  }
-
-  // MODIFIED: pick first unseen; mark all as seen; only append if cap allows
-  let pickedUrl: string | null = null // MODIFIED
-
-  for (const it of items) {
-    const keyInput = `${categoryName}|${sourceVendor}|${it.itemUrl}|${it.title}|${it.publishedMs}`
-    const keyHash = await hashString(keyInput)
-    const kvKey = `seen:rss:${keyHash}`
-
-    const alreadySeen = await env.outage_bingo_kv.get(kvKey)
-    if (!alreadySeen && pickedUrl === null) {
-      pickedUrl = it.itemUrl // MODIFIED
-    }
-
-    if (!alreadySeen) {
-      await env.outage_bingo_kv.put(kvKey, "1", { expirationTtl: SEEN_TTL_SECONDS }) // MODIFIED
-    }
-  }
-
-  if (!pickedUrl) return
-  if (cap.added >= cap.max) return // MODIFIED: respect cap at write time
-
-  const didAdd = appendLink(categoryName, pickedUrl) // MODIFIED
-  if (didAdd) {
-    cap.added++ // MODIFIED
-    changed = true // MODIFIED
-  }
-}
 
 
 // Iterate outage-sources.json and call apiAtl for each Atlassian source or rss for RSS sources boilerplate code left in for other possible handlers
@@ -286,11 +213,149 @@ async function rssCategory(
           }
         }
 
-        
+// Write updated monthly JSON back to R2 once and only if something changed.
+        changed && (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {httpMetadata: { contentType: "application/json" },}))
+
+
+        break
+      }
+      case "0 */4 * * *": {
+
+        // Load outage-sources.json
+        const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")
+        if (!sourceTemplate) throw new Error("Missing outage-sources.json")
+        const sourcesText = await sourceTemplate.text()
+        const sourcesObj = JSON.parse(sourcesText) as any
+
+
+        // Load monthly outages-YYYY-MM.json into memory
+        const mmKey = buildKey()
+        const mmTemplate = await env.BINGO_BUCKET.get(mmKey)
+        if (!mmTemplate) throw new Error(`Missing ${mmKey} in R2 (monthly file not created yet)`)
+        const mmData = await mmTemplate.text()
+        const mmObj = JSON.parse(mmData) as MonthlyOutageBingo[]
+
+        // Map vendor name to index in mmObj so updates target the correct vendor (prevents overwriting all vendors)
+        const mmIndex = new Map<string, number>()
+        for (let i = 0; i < mmObj.length; i++) mmIndex.set(mmObj[i].name, i)
+
+        // Append shortlink if vendor exists and link isn't already present
+        function appendLink(vendorName: string, shortlink: string): boolean {
+          const idx = mmIndex.get(vendorName)
+          if (idx === undefined) return false
+
+          const links = mmObj[idx].link
+
+          // Max of 3 incidents per month to avoid giant array
+          if (links.length >= 3) return false
+
+          // check for dupes
+          if (!links.includes(shortlink)) {
+              links.push(shortlink)
+              return true
+          }
+
+          return false
+        }
+
+        let changed = false
+
+        function startOfMonthUTC(): Date {
+          const now = new Date()
+          return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
+        }
+
+
+        async function hashString(input: string): Promise<string> {
+          const data = new TextEncoder().encode(input)
+          const digest = await crypto.subtle.digest("SHA-256", data)
+          return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        }
+
+        const SEEN_TTL_SECONDS = 60 * 60 * 24 * 90 // 90 days
+
+
+// RSS parser for category cells: fetch RSS -> parse -> pick 1 random unseen -> mark all unseen seen -> append link.
+// Capped to 6 URLs per category (across ALL vendors/sources inside that category).
+        async function rssCategory(categoryName: string, sourceVendor: string, url: string, cap: { added: number; max: number },) {
+          if (cap.added >= cap.max) return
+
+          const res = await fetch(url)
+          if (!res.ok) return
+
+          const feed = parseFeed(await res.text())
+          const monthStart = startOfMonthUTC()
+
+          // Collect unseen, eligible items first (do not write KV yet)
+          const candidates: Array<{ itemUrl: string; kvKey: string }> = []
+
+          for (const item of feed.items ?? []) {
+            if (!item.published) continue
+            if (item.published < monthStart) continue
+
+            const itemUrl = item.url?.trim()
+            const title = item.title?.trim()
+            if (!itemUrl || !title) continue
+
+            const EXCLUDED_TERMS = [
+              "resolved",
+              "restored",
+              "postmortem",
+              "review",
+              "2025",
+              "shababeek.org",
+              "MSN",
+              "stock",
+              "acquired",
+              "Class Action",
+              "Settlement",
+              "maintenance",
+              "planned maintenance",
+              "scheduled maintenance",
+              "status update",
+              "investigation concluded",
+            ]
+
+            const text = (title + " " + (item.description ?? "")).toLowerCase()
+            if (EXCLUDED_TERMS.some(term => text.includes(term))) continue
+
+            // Scope "seen" to category + vendor + article
+            const keyInput = `${categoryName}|${sourceVendor}|${itemUrl}|${title}`
+            const keyHash = await hashString(keyInput)
+            const kvKey = `seen:rss:category:${keyHash}`
+
+            const alreadySeen = await env.outage_bingo_kv.get(kvKey)
+            if (alreadySeen) continue
+
+            candidates.push({ itemUrl, kvKey })
+          }
+
+          if (!candidates.length) return
+
+          // Pick one random unseen item (no shuffle)
+          const picked = candidates[Math.floor(Math.random() * candidates.length)]
+
+          if (cap.added >= cap.max) return
+
+          // Append to the CATEGORY cell
+          const didAdd = appendLink(categoryName, picked.itemUrl)
+          if (!didAdd) return
+
+          // Mark all unseen candidates as seen only after a successful add
+          for (const c of candidates) {
+            await env.outage_bingo_kv.put(c.kvKey, "1", {
+              expirationTtl: SEEN_TTL_SECONDS,
+            })
+          }
+
+          cap.added++
+          changed = true
+        }
+
+
         // Iterate outage-sources.json categories and apply per-category RSS logic
         for (let i = 0; i < sourcesObj.categories.length; i++) { // MODIFIED: added category iteration
           const category = sourcesObj.categories[i]
-          
           const categoryName = category.name
 
           // Cap each category cell to 6 URLs total across all vendors/sources in the category
@@ -325,7 +390,6 @@ async function rssCategory(
 
 // Write updated monthly JSON back to R2 once and only if something changed.
         changed && (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {httpMetadata: { contentType: "application/json" },}))
-
 
         break
       }
