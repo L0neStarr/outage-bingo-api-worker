@@ -116,63 +116,55 @@ export default {
 
         const SEEN_TTL_SECONDS = 60 * 60 * 24 * 90 // 90 days
 
-                // RSS parser: fetch RSS status page -> parse -> check incident -> append links
+        // RSS parser: fetch RSS status page -> parse -> check incident -> append links
         async function rss(vendorName: string, url: string) {
           const res = await fetch(url)
           if (!res.ok) return
 
-          const feed = parseFeed(await res.text())
+          const rssFeed = parseFeed(await res.text())
           const monthStart = startOfMonthUTC()
 
-          // MODIFIED: gather eligible items first
-          const items: { itemUrl: string; title: string; publishedMs: number }[] = [] // MODIFIED
+          // Empty array of possible URL items
+          const candidateUrls: string[] = []
 
-          for (const item of feed.items ?? []) {
+          for (const item of rssFeed.items ?? []) {
             if (!item.published) continue
             if (item.published < monthStart) continue
 
-            const itemUrl = item.url?.trim() // MODIFIED: avoid shadowing param
-            const title = item.title?.trim()
-            if (!itemUrl || !title) continue
+            const rssLink = item.url?.trim()
+            const rssTitle = item.title?.trim()
+            if (!rssLink || !rssTitle) continue
 
-            const text = (title + " " + (item.description ?? "")).toLowerCase()
+            // For Meta rss feeds append /history
+            const metaLink = vendorName === "Meta" ? `${rssLink.replace(/\/+$/, "")}/history` : rssLink
+
+            // Skip resolved-style updates
+            const text = (rssTitle + " " + (item.description ?? "")).toLowerCase()
             if (text.includes("resolved") || text.includes("restored")) continue
 
-            items.push({ itemUrl, title, publishedMs: item.published.getTime() }) // MODIFIED
-          }
-
-          if (!items.length) return // MODIFIED
-
-          // MODIFIED: shuffle so "first unseen" is effectively random
-          for (let i = items.length - 1; i > 0; i--) { // MODIFIED
-            const j = Math.floor(Math.random() * (i + 1)) // MODIFIED
-            const tmp = items[i]
-            items[i] = items[j]
-            items[j] = tmp
-          }
-
-          // MODIFIED: pick first unseen, but mark all as seen so none are picked again
-          let pickedUrl: string | null = null // MODIFIED
-
-          for (const it of items) {
-            const keyInput = `${it.itemUrl}|${it.title}|${it.publishedMs}`
+            const keyInput = `${metaLink}|${rssTitle}|${item.published.getTime()}`
             const keyHash = await hashString(keyInput)
             const kvKey = `seen:rss:${keyHash}`
 
             const alreadySeen = await env.outage_bingo_kv.get(kvKey)
-            if (!alreadySeen && pickedUrl === null) {
-              pickedUrl = it.itemUrl // MODIFIED: this is the ONE we'll add
-            }
 
-            // MODIFIED: mark as seen regardless (prevents future selection)
+            // only unseen items are eligible for picking
             if (!alreadySeen) {
-              await env.outage_bingo_kv.put(kvKey, "1", { expirationTtl: SEEN_TTL_SECONDS }) // MODIFIED
+              candidateUrls.push(metaLink) 
+
+              await env.outage_bingo_kv.put(kvKey, "1", {
+                expirationTtl: SEEN_TTL_SECONDS,
+              })
             }
           }
 
-          if (!pickedUrl) return // MODIFIED: everything was already seen
-          changed = appendLink(vendorName, pickedUrl) || changed // MODIFIED
+          //pick ONE unseen item (if any)
+          if (!candidateUrls.length) return
+          const picked = candidateUrls[Math.floor(Math.random() * candidateUrls.length)]
+
+          changed = appendLink(vendorName, picked) || changed
         }
+
 
 
 
@@ -219,7 +211,7 @@ export default {
 
         break
       }
-      case "0 */4 * * *": {
+      case "0 1 1-31 * *": {
 
         // Load outage-sources.json
         const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")
@@ -314,6 +306,7 @@ export default {
               "scheduled maintenance",
               "status update",
               "investigation concluded",
+              "is there an outage"
             ]
 
             const text = (title + " " + (item.description ?? "")).toLowerCase()
