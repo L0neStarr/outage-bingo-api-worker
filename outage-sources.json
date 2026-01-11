@@ -139,12 +139,11 @@
             "https://metastatus.com/outage-events-feed-whatsapp-business-api.rss",
             "https://metastatus.com/outage-events-feed-marketing-api.rss",
             "https://metastatus.com/outage-events-feed-ads-transparency.rss",
-            "https://metastatus.com/outage-events-feed-data-transparency.rss",
-            "https://news.google.com/rss/search?q=(intitle:%22Meta%22+OR+intitle:%22Facebook%22+OR+intitle:%22Instagram%22+OR+intitle:%22WhatsApp%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"
+            "https://metastatus.com/outage-events-feed-data-transparency.rss"
           ]
         },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_news", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Meta%22+OR+intitle:%22Facebook%22+OR+intitle:%22Instagram%22+OR+intitle:%22WhatsApp%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {

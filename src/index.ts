@@ -30,7 +30,25 @@ async function hashString(input: string): Promise<string> {
 
 const SEEN_TTL_SECONDS = 60 * 60 * 24 * 90 // 90 days
 
-
+const EXCLUDED_TERMS = [
+  "resolved",
+  "restored",
+  "postmortem",
+  "review",
+  "2025",
+  "shababeek.org",
+  "msn",
+  "stock",
+  "acquired",
+  "class action",
+  "settlement",
+  "maintenance",
+  "lawyer",
+  "adweek",
+  "status update",
+  "investigation concluded",
+  "is there an outage"
+]
 
 
 export default {
@@ -273,26 +291,7 @@ export default {
             const title = item.title?.trim()
             if (!itemUrl || !title) continue
 
-            const EXCLUDED_TERMS = [
-              "resolved",
-              "restored",
-              "postmortem",
-              "review",
-              "2025",
-              "shababeek.org",
-              "MSN",
-              "stock",
-              "acquired",
-              "Class Action",
-              "Settlement",
-              "maintenance",
-              "planned maintenance",
-              "scheduled maintenance",
-              "status update",
-              "investigation concluded",
-              "is there an outage"
-            ]
-
+            // Remove articles with unwanted terms
             const text = (title + " " + (item.description ?? "")).toLowerCase()
             if (EXCLUDED_TERMS.some(term => text.includes(term))) continue
 
@@ -430,27 +429,7 @@ export default {
             const rssTitle = item.title?.trim()
             if (!rssLink || !rssTitle) continue
 
-
-           const EXCLUDED_TERMS = [
-              "resolved",
-              "restored",
-              "postmortem",
-              "review",
-              "2025",
-              "shababeek.org",
-              "MSN",
-              "stock",
-              "acquired",
-              "Class Action",
-              "Settlement",
-              "maintenance",
-              "planned maintenance",
-              "scheduled maintenance",
-              "status update",
-              "investigation concluded",
-              "is there an outage"
-            ]
-
+            // Remove articles with excluded terms
             const text = (rssTitle + " " + (item.description ?? "")).toLowerCase()
             if (EXCLUDED_TERMS.some(term => text.includes(term))) continue
 
