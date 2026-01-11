@@ -27,8 +27,9 @@
 	"triggers": {
 		"crons": [
 			"0,30 * 1 * *", // Build monthly bingo card
-			"0 * * * *", // Hourly API calls
-			"0 1 1-31 * *" // Category fetch every 24 hours
+			"0 * * * *", // Hourly API and RSS status calls
+			"0 */4 * * *", // parse category news RSS feeds every 4 hours
+			"10 */4 * * *" // parse vendor news RSS feeds every 4 hours
 		]
 	}
 

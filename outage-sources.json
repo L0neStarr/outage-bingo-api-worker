@@ -8,21 +8,21 @@
           "vendor": "Comcast",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Comcast%22+OR+intitle:%22Xfinity%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Comcast%22+OR+intitle:%22Xfinity%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "Cox",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Cox%22+OR+intitle:%22Charter%20Communications%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Cox%22+OR+intitle:%22Charter%20Communications%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "AT&T",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22AT%26T%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:%22AT%26T%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
           ]
         }
       ]
@@ -34,21 +34,21 @@
           "vendor": "CrowdStrike",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:crowdstrike)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-acquisition+-acquires+-acquired+-purchase+-purchased+-buyout+-merger+-stake+-investment+-invests+-investor+-stock+-stocks+-shares+-nasdaq+-earnings+-settlement+-claim+-deadline+-%22look%20back%22+when:1d&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:crowdstrike)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-acquisition+-acquires+-acquired+-purchase+-purchased+-buyout+-merger+-stake+-investment+-invests+-investor+-stock+-stocks+-shares+-nasdaq+-earnings+-settlement+-claim+-deadline+-%22look%20back%22+when:1d&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "Sophos",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:Sophos)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-settlement+-claim+-deadline+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:Sophos)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-settlement+-claim+-deadline+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "SentinelOne",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:SentinelOne)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-settlement+-claim+-deadline+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:SentinelOne)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+breach+OR+compromised+OR+hacked)+-settlement+-claim+-deadline+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
           ]
         }
       ]
@@ -60,21 +60,21 @@
           "vendor": "US Government",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(United%20states%20Government)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(United%20states%20Government)+(%22service%20outage%22+OR+%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "EU Government",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(European%20Government)+(%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(European%20Government)+(%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
           ]
         },
         {
           "vendor": "Chinese Government",
           "sources": [
             { "type": "api", "urls": [] },
-            { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(Chinese%20Government)+(%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(Chinese%20Government)+(%22cyber%20incident%22+OR+security%20breach+OR+compromised+OR+hacked)+-settlement+-contractor+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
           ]
         }
       ]
@@ -85,36 +85,35 @@
       "vendor": "Cloudflare",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://www.cloudflarestatus.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": ["https://news.google.com/rss/search?q=(Cloudflare)+(cyber%20incident+OR+security%20breach+OR+%22major%20outage%22)+-roundup+-settlement+-postmortem+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(Cloudflare)+(cyber%20incident+OR+security%20breach+OR+%22major%20outage%22)+-roundup+-settlement+-postmortem+-%22look%20back%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Google Services",
       "sources": [
         { "type": "api_custom", "urls": ["https://www.google.com/appsstatus/dashboard/incidents.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Google%22+OR+intitle:%22Gmail%22+OR+intitle:%22Google%20Cloud%22+OR+intitle:%22Google%20Workspace%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Google%22+OR+intitle:%22Gmail%22+OR+intitle:%22Google%20Cloud%22+OR+intitle:%22Google%20Workspace%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "Akamai",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://www.akamaistatus.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "Reddit",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://www.redditstatus.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Reddit%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
-        { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Reddit%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "gdelt_daily", "urls": [] }
       ]
     },
     {
@@ -122,7 +121,7 @@
       "sources": [
         { "type": "api_atlassian", "urls": [] },
         {
-          "type": "rss_hourly",
+          "type": "rss_status",
           "urls": [
             "https://metastatus.com/outage-events-feed-ads-manager.rss",
             "https://metastatus.com/outage-events-feed-catalog.rss",
@@ -145,7 +144,7 @@
           ]
         },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
@@ -157,9 +156,9 @@
                                     "https://www.githubstatus.com/api/v2/incidents/unresolved.json"
                                     ] 
                                   },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": []
+        { "type": "rss_news", "urls": []
 		}
       ]
     },
@@ -167,72 +166,64 @@
       "vendor": "Discord",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://discordstatus.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Discord%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Discord%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Slack",
       "sources": [
         { "type": "api_custom", "urls": ["https://slack-status.com/api/v2.0.0/current"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Slack%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Slack%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Zoom",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://www.zoomstatus.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "Twitch",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.twitch.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "Ubiquiti Networks",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.ui.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "Steam",
       "sources": [
         { "type": "api_atlassian", "urls": [] },
-        {
-          "type": "rss_hourly",
-          "urls": ["https://news.google.com/rss/search?q=(intitle:%22Steam%22+OR+intitle:%22Valve%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"]
-        },
+        { "type": "rss_status", "urls": []},
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Steam%22+OR+intitle:%22Valve%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Microsoft Services",
       "sources": [
         { "type": "api_atlassian", "urls": [] },
-        {
-          "type": "rss_hourly",
-          "urls": [
-            "https://rssfeed.azure.status.microsoft/en-us/status/feed/",
-			      "https://news.google.com/rss/search?q=(intitle:%22Microsoft%22+OR+intitle:%22Azure%22+OR+intitle:%22Microsoft%20365%22+OR+intitle:%22Outlook%22+OR+intitle:%22Entra%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%22+OR+%22down%20detector%22+OR+%22service%20disruption%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"
-			]
+        { "type": "rss_status", "urls": ["https://rssfeed.azure.status.microsoft/en-us/status/feed/"]
         },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Microsoft%22+OR+intitle:%22Azure%22+OR+intitle:%22Microsoft%20365%22+OR+intitle:%22Outlook%22+OR+intitle:%22Entra%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%22+OR+%22down%20detector%22+OR+%22service%20disruption%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
@@ -240,70 +231,69 @@
       "sources": [
         { "type": "api_atlassian", "urls": [] },
         {
-          "type": "rss_hourly",
+          "type": "rss_status",
           "urls": [
             "https://status.aws.amazon.com/rss/s3-us-east-1.rss",
             "https://status.aws.amazon.com/rss/ec2-us-east-1.rss",
-            "https://status.aws.amazon.com/rss/rds-us-east-1.rss",
-			      "https://news.google.com/rss/search?q=(intitle:%22Amazon%20Web%20Services%22+OR+intitle:%22AWS%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"
+            "https://status.aws.amazon.com/rss/rds-us-east-1.rss"
           ]
         },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Amazon%20Web%20Services%22+OR+intitle:%22AWS%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Apple",
       "sources": [
         { "type": "api_atlassian", "urls": [] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Apple%22+OR+intitle:%22iCloud%22+OR+intitle:%22Apple%20ID%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Apple%22+OR+intitle:%22iCloud%22+OR+intitle:%22Apple%20ID%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "SendGrid",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.sendgrid.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": [] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
       "vendor": "NVIDIA cloud services",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.ngc.nvidia.com/api/v2/incidents/unresolved.json", "https://status.geforcenow.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22NVIDIA%22+OR+intitle:%22DGX%20Cloud%22+OR+intitle:%22NVIDIA%20Cloud%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22NVIDIA%22+OR+intitle:%22DGX%20Cloud%22+OR+intitle:%22NVIDIA%20Cloud%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "GoDaddy",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.godaddy.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22GoDaddy%22)+(%22cyber%20incident%22+OR+%22service%20down%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22GoDaddy%22)+(%22cyber%20incident%22+OR+%22service%20down%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Cisco",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://status.security.cisco.com/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Cisco%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Cisco%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
       "vendor": "Wikimedia",
       "sources": [
         { "type": "api_atlassian", "urls": ["https://www.wikimediastatus.net/api/v2/incidents/unresolved.json"] },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Wikimedia%22+OR+intitle:%22Wikipedia%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Wikimedia%22+OR+intitle:%22Wikipedia%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": [] }
       ]
     },
     {
@@ -314,9 +304,9 @@
                                       "https://status.openai.com/api/v2/incidents.json"
                                       ]
                                     },
-        { "type": "rss_hourly", "urls": ["https://news.google.com/rss/search?q=(intitle:%22ChatGPT%22+OR+intitle:%22Claude%22+OR+intitle:%22Gemini%22+OR+intitle:%22Copilot%22)+(%22threat%20actor%22+OR+%22account%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
+        { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_daily", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22ChatGPT%22+OR+intitle:%22Claude%22+OR+intitle:%22Gemini%22+OR+intitle:%22Copilot%22)+(%22threat%20actor%22+OR+%22account%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     }
   ]
