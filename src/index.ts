@@ -287,6 +287,7 @@ async function apiCustom(vendorName: string, url: string) {
         // Map vendor name to index in mmObj so updates target the correct vendor (prevents overwriting all vendors)
         const mmIndex = new Map<string, number>()
         for (let i = 0; i < mmObj.length; i++) mmIndex.set(mmObj[i].name, i)
+        
 
         // Append shortlink if vendor exists and link isn't already present
         function appendLink(vendorName: string, shortlink: string): boolean {
@@ -309,7 +310,26 @@ async function apiCustom(vendorName: string, url: string) {
 
         let changed = false
 
+        // Atlassian API parser: fetch status page -> parse -> check incident -> append links
+        async function apiAtl(categoryName: string, url: string) {
+          const res = await fetch(url)
+          if (!res.ok) {
+            console.log(`Fetch failed for ${categoryName}: ${url} (status ${res.status})`)
+            return
+          }
 
+          const parsed = (await res.json()) as apiAtlassian
+          if (!parsed?.incidents?.length) return
+
+          for (let i = 0; i < parsed.incidents.length; i++) {
+            const impact = String(parsed.incidents[i].impact || "").toLowerCase()
+            const shortlink = parsed.incidents[i].shortlink
+            // Only use critical and major incidents
+            if ((impact === "critical" || impact === "major" || impact === "minor") && typeof shortlink === "string" && shortlink.length > 0) { // MODIFIED: tracking minor, major, and critical impact levels to have more cell hits
+              changed = appendLink(categoryName, shortlink) || changed
+            }
+          }
+        }
 
 // RSS parser for category cells: fetch RSS -> parse -> pick 1 random unseen -> mark all unseen seen -> append link.
 // Capped to 6 URLs per category (across ALL vendors/sources inside that category).
@@ -398,7 +418,13 @@ async function apiCustom(vendorName: string, url: string) {
                   }
                   break
                 }
-
+              case "api_atlassian": {
+                for (let k = 0; k < source.urls.length; k++) {
+                  const url = source.urls[k]
+                  await apiAtl(categoryName, url)
+                }
+                break
+              }
                 default:
                   break
               }
@@ -406,7 +432,7 @@ async function apiCustom(vendorName: string, url: string) {
           }
         }
 
-// Write updated monthly JSON back to R2 once and only if something changed.
+        // Write updated monthly JSON back to R2 once and only if something changed.
         changed && (await env.BINGO_BUCKET.put(mmKey, JSON.stringify(mmObj, null, 2), {httpMetadata: { contentType: "application/json" },}))
 
         break
