@@ -133,6 +133,44 @@ export default {
           }
         }
 
+// Custom API parser (Google Apps Status)
+async function apiCustom(vendorName: string, url: string) {
+  const res = await fetch(url)
+  if (!res.ok) {
+    console.log(`Fetch failed for ${vendorName}: ${url} (status ${res.status})`)
+    return
+  }
+
+  const parsed = (await res.json()) as any[]
+  const monthStart = startOfMonthUTC()
+
+  for (let i = 0; i < parsed.length; i++) {
+    const createdString = parsed[i]?.created
+    const severity = parsed[i].severity
+    const uri = parsed[i].uri
+
+    if (typeof createdString !== "string") continue
+    const createDate = new Date(createdString)
+
+    // Only incidents created in the current month
+    if (createDate < monthStart) continue
+
+    // Only include low / medium / high / critical
+    if (
+      severity !== "low" &&
+      severity !== "medium" &&
+      severity !== "high" &&
+      severity !== "critical"
+    ) continue
+
+    if (typeof uri === "string" && uri.length > 0) {
+      const shortlink = `https://www.google.com/appsstatus/dashboard/${uri.replace(/^\/+/, "")}`
+      changed = appendLink(vendorName, shortlink) || changed
+    }
+  }
+}
+
+
 //###############################################################################
 //                        RSS feed parsing
 //###############################################################################
@@ -205,6 +243,10 @@ export default {
                 break
               }
               case "api_custom":{
+                 for (let k = 0; k < source.urls.length; k++) {
+                  const url = source.urls[k]
+                  await apiCustom(vendorName, url)
+                }               
                 break
               }
               case "rss_status":{
