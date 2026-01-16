@@ -50,6 +50,13 @@
             { "type": "api", "urls": [] },
             { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=(intitle:%22AT%26T%22)+(%22security+breach%22+OR+compromised+OR+hacked+OR+ransomware+OR+malware+OR+%22data+exposed%22+OR+%22data+leak%22)+-stock+-shares+-nasdaq+-MSN+when:1d&hl=en-US&gl=US&ceid=US:en"] }
           ]
+        },
+        {
+          "vendor": "Verizon",
+          "sources": [
+            { "type": "api", "urls": [] },
+            { "type": "rss_category", "urls": ["https://news.google.com/rss/search?q=site:techrepublic.com+((intitle:Verizon+OR+intitle:%22verizon%20wireless%22))+(intitle:%22Data%20Leak%22+OR+intitle:%22Security%20Breach%22+OR+intitle:Ransomware+OR+intitle:Outage+OR+intitle:DDoS+OR+intitle:%22Threat%20Actor%22+OR+intitle:Vulnerability)&hl=en-US&gl=US&ceid=US:en"] }
+          ]
         }
       ]
     },

@@ -98,7 +98,7 @@ export default {
 			  const links = mmObj[idx].link
 
 			// Max of 3 incidents per month to avoid giant array
-			if (links.length >= 3) return false
+			if (links.length >= 6) return false
 
 			// check for dupes
 			if (!links.includes(shortlink)) {
@@ -297,7 +297,7 @@ async function apiCustom(vendorName: string, url: string) {
           const links = mmObj[idx].link
 
           // Max of 3 incidents per month to avoid giant array
-          if (links.length >= 3) return false
+          if (links.length >= 6) return false
 
           // check for dupes
           if (!links.includes(shortlink)) {
@@ -465,7 +465,7 @@ async function apiCustom(vendorName: string, url: string) {
 			  const links = mmObj[idx].link
 
 			// Max of 3 incidents per month to avoid giant array
-			if (links.length >= 3) return false
+			if (links.length >= 6) return false
 
 			// check for dupes
 			if (!links.includes(shortlink)) {
