@@ -54,7 +54,7 @@ const EXCLUDED_TERMS = [
 export default {
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     switch (controller.cron) {
-      case "0,30 * 1 * *": { // build monthly bingo card
+      case "5,30 * 1 * *": { // build monthly bingo card
         // Build monthly template file if not present
         const key = buildKey()
 
@@ -268,7 +268,7 @@ async function apiCustom(vendorName: string, url: string) {
 
         break
       }
-      case "0 */4 * * *": { //outage categories
+      case "0 */2 * * *": { //outage categories
 
         // Load outage-sources.json
         const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")
@@ -437,7 +437,7 @@ async function apiCustom(vendorName: string, url: string) {
 
         break
       }
-      case "10 */4 * * *":{ // outage rss news feeds
+      case "10 */2 * * *":{ // outage rss news feeds
 
        // Load outage-sources.json
         const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")

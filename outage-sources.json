@@ -138,7 +138,7 @@
         { "type": "api_atlassian", "urls": ["https://www.akamaistatus.com/api/v2/incidents/unresolved.json"] },
         { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_news", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:Akamai)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
@@ -196,7 +196,7 @@
                                   },
         { "type": "rss_status", "urls": [] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_news", "urls": []
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:Github+OR+intitle:python+OR+intitle:npm)+(intitle:%22Data%20Leak%22+OR+intitle:%22Security%20Breach%22+OR+intitle:Ransomware+OR+intitle:Outage+OR+intitle:DDoS+OR+intitle:%22Threat%20Actor%22+OR+intitle:Vulnerability)&hl=en-US&gl=US&ceid=US:en"]
 		}
       ]
     },
@@ -322,7 +322,7 @@
         { "type": "api_atlassian", "urls": ["https://www.wikimediastatus.net/api/v2/incidents/unresolved.json"] },
         { "type": "rss_status", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Wikimedia%22+OR+intitle:%22Wikipedia%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22compromised%22+OR+%22major%20outage%20incident%22+OR+%22down%20detector%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] },
         { "type": "gdelt_daily", "urls": [] },
-        { "type": "rss_news", "urls": [] }
+        { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:wikipedia)+(intitle:%22Data%20Leak%22+OR+intitle:%22Security%20Breach%22+OR+intitle:Outage+OR+intitle:DDoS+OR+intitle:%22Threat%20Actor%22+OR+intitle:Vulnerability)&hl=en-US&gl=US&ceid=US:en"] }
       ]
     },
     {
