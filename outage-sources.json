@@ -258,7 +258,11 @@
       "vendor": "Microsoft Services",
       "sources": [
         { "type": "api_atlassian", "urls": [] },
-        { "type": "rss_status", "urls": ["https://rssfeed.azure.status.microsoft/en-us/status/feed/"]
+        { "type": "rss_status", "urls": [
+            "https://rssfeed.azure.status.microsoft/en-us/status/feed/",
+            "https://status.cloud.microsoft/api/feed/mac",
+            "https://status.cloud.microsoft/api/feed/ppac"
+          ]
         },
         { "type": "gdelt_daily", "urls": [] },
         { "type": "rss_news", "urls": ["https://news.google.com/rss/search?q=(intitle:%22Microsoft%22+OR+intitle:%22Azure%22+OR+intitle:%22Microsoft%20365%22+OR+intitle:%22Outlook%22+OR+intitle:%22Entra%22)+(%22cyber%20incident%22+OR+%22security%20breach%22+OR+%22threat%20actor%22+OR+%22service%20compromised%22+OR+%22major%20outage%22+OR+%22down%20detector%22+OR+%22service%20disruption%22)+-%22MSN%22+-%22postmortem%22+-%22update%22+-%22roundup%22+-%22conference%22+-%22summit%22+-%22stock%22+-%22stock%20market%22+-%22viral%22+-%22celebrity%22+-%22pop%20culture%22&hl=en-US&gl=US&ceid=US:en"] }
