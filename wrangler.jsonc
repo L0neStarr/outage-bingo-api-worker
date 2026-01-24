@@ -28,8 +28,8 @@
 		"crons": [
 			"5,30 * 1 * *", // Build monthly bingo card
 			"0 * * * *", // Hourly API and RSS status calls
-			"0 */2 * * *", // parse category news RSS feeds every 12 hours
-			"10 */2 * * *" // parse vendor news RSS feeds every 12 hours
+			"0 */12 * * *", // parse category news RSS feeds every 12 hours
+			"10 */12 * * *" // parse vendor news RSS feeds every 12 hours
 		]
 	}
 

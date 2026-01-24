@@ -268,7 +268,7 @@ async function apiCustom(vendorName: string, url: string) {
 
         break
       }
-      case "0 */2 * * *": { //outage categories
+      case "0 */12 * * *": { //outage categories
 
         // Load outage-sources.json
         const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")
@@ -437,7 +437,7 @@ async function apiCustom(vendorName: string, url: string) {
 
         break
       }
-      case "10 */2 * * *":{ // outage rss news feeds
+      case "10 */12 * * *":{ // outage rss news feeds
 
        // Load outage-sources.json
         const sourceTemplate = await env.BINGO_BUCKET.get("outage-sources.json")
