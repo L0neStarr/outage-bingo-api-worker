@@ -127,7 +127,7 @@ export default {
             const shortlink = parsed.incidents[i].shortlink
 
             // Only use critical and major incidents
-            if ((impact === "critical" || impact === "major" || impact === "minor") && typeof shortlink === "string" && shortlink.length > 0) { // MODIFIED: tracking minor, major, and critical impact levels to have more cell hits
+            if ((impact === "critical" || impact === "major") && typeof shortlink === "string" && shortlink.length > 0) { // tracking major, and critical impact levels to have more cell hits
               changed = appendLink(vendorName, shortlink) || changed
             }
           }
@@ -194,15 +194,27 @@ async function apiCustom(vendorName: string, url: string) {
             const rssTitle = item.title?.trim()
             if (!rssLink || !rssTitle) continue
 
-            // For Meta rss feeds append /history
-            const metaLink = vendorName === "Meta" ? `${rssLink.replace(/\/+$/, "")}/history` : rssLink
+          let historyLink = rssLink
+
+          // Meta: append /history
+          if (vendorName === "Meta") {
+            historyLink = `${rssLink.replace(/\/+$/, "")}/history`
+          }
+
+          // Azure: append /history
+          if (
+            vendorName === "Microsoft Services" &&
+            url.includes("rssfeed.azure.status.microsoft")
+          ) {
+            historyLink = `${rssLink.replace(/\/+$/, "")}/history`
+          }
 
             // Skip resolved-style updates
             const text = (rssTitle + " " + (item.description ?? "")).toLowerCase()
             if (text.includes("resolved") || text.includes("restored")) continue
 
             // For rss feeds, check if the item was already seen (due to updates or weird publish date behavior)
-            const keyInput = `${metaLink}|${rssTitle}|${item.published.getTime()}`
+            const keyInput = `${historyLink}|${rssTitle}|${item.published.getTime()}`
             const keyHash = await hashString(keyInput)
             const kvKey = `seen:rss:${keyHash}`
 
@@ -210,7 +222,7 @@ async function apiCustom(vendorName: string, url: string) {
 
             // only unseen items are eligible for picking
             if (!alreadySeen) {
-              candidateUrls.push(metaLink) 
+              candidateUrls.push(historyLink)
 
               await env.outage_bingo_kv.put(kvKey, "1", {
                 expirationTtl: SEEN_TTL_SECONDS,
